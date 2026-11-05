@@ -1,0 +1,3 @@
+﻿module.exports={
+ 'DEMO-CR-SJC':{lat:9.9333,lon:-84.0833,ciudad:'San José'},'DEMO-CR-ESC':{lat:9.9186,lon:-84.1399,ciudad:'Escazú'},'DEMO-CR-HER':{lat:9.9985,lon:-84.1165,ciudad:'Heredia'},'DEMO-CR-ALA':{lat:10.0162,lon:-84.2116,ciudad:'Alajuela'},'DEMO-CR-CAR':{lat:9.8644,lon:-83.9194,ciudad:'Cartago'},'DEMO-CR-LIB':{lat:10.635,lon:-85.4377,ciudad:'Liberia'},'DEMO-CR-PUN':{lat:9.9763,lon:-84.8384,ciudad:'Puntarenas'},'DEMO-CR-LIM':{lat:9.9913,lon:-83.036,ciudad:'Limón'},'DEMO-CR-PZE':{lat:9.3721,lon:-83.7039,ciudad:'San Isidro de El General'},'DEMO-US-MIA':{lat:25.8195,lon:-80.3553,ciudad:'Doral / Miami'},
+};

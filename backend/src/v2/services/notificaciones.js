@@ -1,0 +1,3 @@
+﻿const {Op}=require('sequelize');const {models}=require('../../models');const N=require('../models/notificacion');const {clienteAutenticado}=require('./vinculos');
+async function propias(uid){const cid=await clienteAutenticado(uid);const rows=await N.findAll({where:{clienteId:cid,[Op.or]:[{usuarioId:null},{usuarioId:uid}]},order:[['id','DESC']],limit:200});const valid=[];for(const row of rows){if(row.paqueteId){const p=await models.paquetes.findByPk(row.paqueteId);const c=p&&await models.casilleros.findByPk(p.casilleroId);if(!c||c.clienteId!==cid)continue;}valid.push(row);}return valid;}
+module.exports={propias};

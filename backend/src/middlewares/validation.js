@@ -9,8 +9,10 @@ module.exports = (model, body) => {
     if (value === null) throw fail(400, 'Campo obligatorio: ' + key);
     if (['STRING', 'DATEONLY'].includes(type) && (typeof value !== 'string' || !value.trim() || value !== value.trim() || value.length > 255)) throw fail(400, 'Texto inválido: ' + key);
     if (['INTEGER', 'DECIMAL'].includes(type) && (typeof value !== 'number' || !Number.isFinite(value) || (type === 'INTEGER' && (!Number.isSafeInteger(value) || value < 1)))) throw fail(400, 'Número inválido: ' + key);
+    if (type === 'DECIMAL' && Math.abs(value) >= (key === 'pesoKg' ? 10000000 : 10000000000)) throw fail(400, 'Número fuera de rango: ' + key);
     if (type === 'DECIMAL' && Math.abs(value * 1000 - Math.round(value * 1000)) > 0.00001) throw fail(400, 'Máximo tres decimales: ' + key);
     if (type === 'DECIMAL' && key !== 'pesoKg' && Math.abs(value * 100 - Math.round(value * 100)) > 0.00001) throw fail(400, 'Máximo dos decimales: ' + key);
     if (type === 'DATEONLY' && (!/^\d{4}-\d{2}-\d{2}$/.test(value) || !Number.isFinite(Date.parse(value)) || new Date(value).toISOString().slice(0, 10) !== value)) throw fail(400, 'Fecha inválida: ' + key);
   }
 };
+

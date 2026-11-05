@@ -1,0 +1,840 @@
+# Día 2: iniciar sesión y pegar data.token en la variable token.
+@token = pegar_token_aqui
+
+### Registro público (usar correo nuevo)
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{"nombre":"Operador","correo":"operador@example.com","password":"Prueba-segura-2026"}
+
+### Login público
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{"correo":"operador@example.com","password":"Prueba-segura-2026"}
+
+### Perfil protegido
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer {{token}}
+
+### Sin token: 401
+GET http://localhost:3000/api/clientes
+
+# Aerolink: 15 entidades. Usar BD de prueba y ajustar IDs tras cada creación.
+@base = http://localhost:3000/api
+@clientesId = 1
+@casillerosId = 1
+@enviosId = 1
+@paquetesId = 1
+@facturasId = 1
+@paisesId = 1
+@sucursalesId = 1
+@bodegasId = 1
+@ubicacionesId = 1
+@transportistasId = 1
+@serviciosId = 1
+@tarifasId = 1
+@movimientosId = 1
+@entregasId = 1
+@incidenciasId = 1
+
+### Crear clientes
+POST {{base}}/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Ana",
+  "apellidos": "Solano Mora",
+  "correo": "ana@example.com",
+  "telefono": "+50688887777",
+  "identificacion": "112340567",
+  "direccion": "San José, Costa Rica",
+  "fechaRegistro": "2026-11-04",
+  "estado": "activo"
+}
+
+### Listar clientes
+GET {{base}}/clientes?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/clientes/{{clientesId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/clientes/{{clientesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Ana",
+  "apellidos": "Solano Mora",
+  "correo": "ana@example.com",
+  "telefono": "+50688887777",
+  "identificacion": "112340567",
+  "direccion": "San José, Costa Rica",
+  "fechaRegistro": "2026-11-04",
+  "estado": "activo"
+}
+
+### Obligatorios: 400
+POST {{base}}/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/clientes?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear casilleros
+POST {{base}}/casilleros
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numero": "AERO-1001",
+  "direccionMiami": "8500 NW 30th Terrace, Miami, FL",
+  "fechaApertura": "2026-11-04",
+  "estado": "activo",
+  "clienteId": {{clientesId}}
+}
+
+### Listar casilleros
+GET {{base}}/casilleros?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/casilleros/{{casillerosId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/casilleros/{{casillerosId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numero": "AERO-1001",
+  "direccionMiami": "8500 NW 30th Terrace, Miami, FL",
+  "fechaApertura": "2026-11-04",
+  "estado": "activo",
+  "clienteId": {{clientesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/casilleros
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/casilleros?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear envios
+POST {{base}}/envios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "ENV-1001",
+  "fechaSalida": "2026-11-04",
+  "fechaEstimadaEntrega": "2026-11-10",
+  "estado": "pendiente",
+  "costoTotal": 35,
+  "clienteId": {{clientesId}}
+}
+
+### Listar envios
+GET {{base}}/envios?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/envios/{{enviosId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/envios/{{enviosId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "ENV-1001",
+  "fechaSalida": "2026-11-04",
+  "fechaEstimadaEntrega": "2026-11-10",
+  "estado": "pendiente",
+  "costoTotal": 35,
+  "clienteId": {{clientesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/envios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/envios?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear paquetes
+POST {{base}}/paquetes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "tracking": "SHOP-1001",
+  "tiendaOrigen": "Amazon",
+  "descripcion": "Audífonos",
+  "pesoKg": 0.5,
+  "valorDeclaradoUsd": 60,
+  "fechaRecepcion": "2026-11-04",
+  "estado": "en_bodega",
+  "casilleroId": {{casillerosId}},
+  "envioId": {{enviosId}}
+}
+
+### Listar paquetes
+GET {{base}}/paquetes?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/paquetes/{{paquetesId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/paquetes/{{paquetesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "tracking": "SHOP-1001",
+  "tiendaOrigen": "Amazon",
+  "descripcion": "Audífonos",
+  "pesoKg": 0.5,
+  "valorDeclaradoUsd": 60,
+  "fechaRecepcion": "2026-11-04",
+  "estado": "en_bodega",
+  "casilleroId": {{casillerosId}},
+  "envioId": {{enviosId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/paquetes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/paquetes?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear facturas
+POST {{base}}/facturas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numero": "FAC-1001",
+  "fecha": "2026-11-04",
+  "subtotal": 35,
+  "impuestos": 4.55,
+  "total": 39.55,
+  "metodoPago": "transferencia",
+  "estadoPago": "pendiente",
+  "envioId": {{enviosId}}
+}
+
+### Listar facturas
+GET {{base}}/facturas?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/facturas/{{facturasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/facturas/{{facturasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numero": "FAC-1001",
+  "fecha": "2026-11-04",
+  "subtotal": 35,
+  "impuestos": 4.55,
+  "total": 39.55,
+  "metodoPago": "transferencia",
+  "estadoPago": "pendiente",
+  "envioId": {{enviosId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/facturas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/facturas?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear paises
+POST {{base}}/paises
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "CR",
+  "nombre": "Costa Rica",
+  "estado": "activo"
+}
+
+### Listar paises
+GET {{base}}/paises?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/paises/{{paisesId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/paises/{{paisesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "CR",
+  "nombre": "Costa Rica",
+  "estado": "activo"
+}
+
+### Obligatorios: 400
+POST {{base}}/paises
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/paises?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear sucursales
+POST {{base}}/sucursales
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "SUC-SJO",
+  "nombre": "Sucursal San José",
+  "direccion": "San José centro",
+  "telefono": "+50622223333",
+  "estado": "activo",
+  "paisId": {{paisesId}}
+}
+
+### Listar sucursales
+GET {{base}}/sucursales?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/sucursales/{{sucursalesId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/sucursales/{{sucursalesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "SUC-SJO",
+  "nombre": "Sucursal San José",
+  "direccion": "San José centro",
+  "telefono": "+50622223333",
+  "estado": "activo",
+  "paisId": {{paisesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/sucursales
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/sucursales?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear bodegas
+POST {{base}}/bodegas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "BOD-SJO",
+  "nombre": "Bodega de distribución",
+  "direccion": "La Uruca, San José",
+  "estado": "activo",
+  "sucursalId": {{sucursalesId}}
+}
+
+### Listar bodegas
+GET {{base}}/bodegas?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/bodegas/{{bodegasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/bodegas/{{bodegasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "BOD-SJO",
+  "nombre": "Bodega de distribución",
+  "direccion": "La Uruca, San José",
+  "estado": "activo",
+  "sucursalId": {{sucursalesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/bodegas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/bodegas?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear ubicaciones
+POST {{base}}/ubicaciones
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "UB-A01",
+  "pasillo": "A",
+  "estante": "01",
+  "estado": "disponible",
+  "bodegaId": {{bodegasId}}
+}
+
+### Listar ubicaciones
+GET {{base}}/ubicaciones?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/ubicaciones/{{ubicacionesId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/ubicaciones/{{ubicacionesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "UB-A01",
+  "pasillo": "A",
+  "estante": "01",
+  "estado": "disponible",
+  "bodegaId": {{bodegasId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/ubicaciones
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/ubicaciones?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear transportistas
+POST {{base}}/transportistas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "TRA-001",
+  "nombre": "Distribución Central",
+  "telefono": "+50622224444",
+  "correo": "operaciones@example.com",
+  "estado": "activo",
+  "paisId": {{paisesId}}
+}
+
+### Listar transportistas
+GET {{base}}/transportistas?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/transportistas/{{transportistasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/transportistas/{{transportistasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "TRA-001",
+  "nombre": "Distribución Central",
+  "telefono": "+50622224444",
+  "correo": "operaciones@example.com",
+  "estado": "activo",
+  "paisId": {{paisesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/transportistas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/transportistas?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear servicios
+POST {{base}}/servicios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "SER-EXP",
+  "nombre": "Entrega express",
+  "descripcion": "Distribución de paquetes en Costa Rica",
+  "estado": "activo"
+}
+
+### Listar servicios
+GET {{base}}/servicios?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/servicios/{{serviciosId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/servicios/{{serviciosId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "SER-EXP",
+  "nombre": "Entrega express",
+  "descripcion": "Distribución de paquetes en Costa Rica",
+  "estado": "activo"
+}
+
+### Obligatorios: 400
+POST {{base}}/servicios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/servicios?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear tarifas
+POST {{base}}/tarifas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "TAR-EXP-CR",
+  "precioPorKg": 7,
+  "cargoBase": 5,
+  "fechaVigencia": "2026-11-05",
+  "estado": "activo",
+  "servicioId": {{serviciosId}},
+  "paisId": {{paisesId}},
+  "transportistaId": {{transportistasId}}
+}
+
+### Listar tarifas
+GET {{base}}/tarifas?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/tarifas/{{tarifasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/tarifas/{{tarifasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "TAR-EXP-CR",
+  "precioPorKg": 7,
+  "cargoBase": 5,
+  "fechaVigencia": "2026-11-05",
+  "estado": "activo",
+  "servicioId": {{serviciosId}},
+  "paisId": {{paisesId}},
+  "transportistaId": {{transportistasId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/tarifas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/tarifas?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear movimientos
+POST {{base}}/movimientos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "MOV-001",
+  "fecha": "2026-11-05",
+  "tipo": "entrada",
+  "observaciones": "Recepción y ubicación del paquete",
+  "estado": "registrado",
+  "paqueteId": {{paquetesId}},
+  "ubicacionId": {{ubicacionesId}}
+}
+
+### Listar movimientos
+GET {{base}}/movimientos?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/movimientos/{{movimientosId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/movimientos/{{movimientosId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "MOV-001",
+  "fecha": "2026-11-05",
+  "tipo": "entrada",
+  "observaciones": "Recepción y ubicación del paquete",
+  "estado": "registrado",
+  "paqueteId": {{paquetesId}},
+  "ubicacionId": {{ubicacionesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/movimientos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/movimientos?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear entregas
+POST {{base}}/entregas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "ENT-001",
+  "fechaProgramada": "2026-11-10",
+  "destinatario": "Ana Solano Mora",
+  "direccion": "San José, Costa Rica",
+  "estado": "pendiente",
+  "envioId": {{enviosId}},
+  "sucursalId": {{sucursalesId}},
+  "transportistaId": {{transportistasId}}
+}
+
+### Listar entregas
+GET {{base}}/entregas?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/entregas/{{entregasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/entregas/{{entregasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "ENT-001",
+  "fechaProgramada": "2026-11-10",
+  "destinatario": "Ana Solano Mora",
+  "direccion": "San José, Costa Rica",
+  "estado": "pendiente",
+  "envioId": {{enviosId}},
+  "sucursalId": {{sucursalesId}},
+  "transportistaId": {{transportistasId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/entregas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/entregas?estado=invalido
+Authorization: Bearer {{token}}
+
+### Crear incidencias
+POST {{base}}/incidencias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "INC-001",
+  "fecha": "2026-11-05",
+  "descripcion": "Verificar embalaje exterior antes de despachar",
+  "prioridad": "baja",
+  "estado": "abierta",
+  "paqueteId": {{paquetesId}}
+}
+
+### Listar incidencias
+GET {{base}}/incidencias?page=1&limit=20
+Authorization: Bearer {{token}}
+
+### Ver uno
+GET {{base}}/incidencias/{{incidenciasId}}
+Authorization: Bearer {{token}}
+
+### Actualizar
+PUT {{base}}/incidencias/{{incidenciasId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "codigo": "INC-001",
+  "fecha": "2026-11-05",
+  "descripcion": "Verificar embalaje exterior antes de despachar",
+  "prioridad": "baja",
+  "estado": "abierta",
+  "paqueteId": {{paquetesId}}
+}
+
+### Obligatorios: 400
+POST {{base}}/incidencias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Estado inválido: 400
+GET {{base}}/incidencias?estado=invalido
+Authorization: Bearer {{token}}
+
+### Eliminar incidencias (orden seguro)
+DELETE {{base}}/incidencias/{{incidenciasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar entregas (orden seguro)
+DELETE {{base}}/entregas/{{entregasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar movimientos (orden seguro)
+DELETE {{base}}/movimientos/{{movimientosId}}
+Authorization: Bearer {{token}}
+
+### Eliminar tarifas (orden seguro)
+DELETE {{base}}/tarifas/{{tarifasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar servicios (orden seguro)
+DELETE {{base}}/servicios/{{serviciosId}}
+Authorization: Bearer {{token}}
+
+### Eliminar transportistas (orden seguro)
+DELETE {{base}}/transportistas/{{transportistasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar ubicaciones (orden seguro)
+DELETE {{base}}/ubicaciones/{{ubicacionesId}}
+Authorization: Bearer {{token}}
+
+### Eliminar bodegas (orden seguro)
+DELETE {{base}}/bodegas/{{bodegasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar sucursales (orden seguro)
+DELETE {{base}}/sucursales/{{sucursalesId}}
+Authorization: Bearer {{token}}
+
+### Eliminar paises (orden seguro)
+DELETE {{base}}/paises/{{paisesId}}
+Authorization: Bearer {{token}}
+
+### Eliminar facturas (orden seguro)
+DELETE {{base}}/facturas/{{facturasId}}
+Authorization: Bearer {{token}}
+
+### Eliminar paquetes (orden seguro)
+DELETE {{base}}/paquetes/{{paquetesId}}
+Authorization: Bearer {{token}}
+
+### Eliminar envios (orden seguro)
+DELETE {{base}}/envios/{{enviosId}}
+Authorization: Bearer {{token}}
+
+### Eliminar casilleros (orden seguro)
+DELETE {{base}}/casilleros/{{casillerosId}}
+Authorization: Bearer {{token}}
+
+### Eliminar clientes (orden seguro)
+DELETE {{base}}/clientes/{{clientesId}}
+Authorization: Bearer {{token}}
+
+
+### Crear usuario autenticado: 201
+POST {{base}}/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Usuario CRUD","correo":"crud@example.com","password":"Prueba-segura-2026"}
+
+### Listar usuarios
+GET {{base}}/usuarios
+Authorization: Bearer {{token}}
+
+### Ver usuario (ajustar ID)
+GET {{base}}/usuarios/1
+Authorization: Bearer {{token}}
+
+### Editar usuario
+PUT {{base}}/usuarios/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Nombre actualizado"}
+
+### Eliminar usuario (ajustar ID)
+DELETE {{base}}/usuarios/1
+Authorization: Bearer {{token}}
+

@@ -1,0 +1,168 @@
+erDiagram
+    clientes ||--o{ casilleros : clienteId
+    clientes ||--o{ envios : clienteId
+    casilleros ||--o{ paquetes : casilleroId
+    envios o|--o{ paquetes : envioId
+    envios ||--o| facturas : envioId
+    paises ||--o{ sucursales : paisId
+    sucursales ||--o{ bodegas : sucursalId
+    bodegas ||--o{ ubicaciones : bodegaId
+    paises ||--o{ transportistas : paisId
+    servicios ||--o{ tarifas : servicioId
+    paises ||--o{ tarifas : paisId
+    transportistas ||--o{ tarifas : transportistaId
+    paquetes ||--o{ movimientos : paqueteId
+    ubicaciones ||--o{ movimientos : ubicacionId
+    envios ||--o{ entregas : envioId
+    sucursales ||--o{ entregas : sucursalId
+    transportistas ||--o{ entregas : transportistaId
+    paquetes ||--o{ incidencias : paqueteId
+    clientes {
+        int id PK
+        string nombre
+        string apellidos
+        string correo UK
+        string telefono
+        string identificacion UK
+        string direccion
+        date fechaRegistro
+        string estado
+    }
+    casilleros {
+        int id PK
+        string numero UK
+        string direccionMiami
+        date fechaApertura
+        string estado
+        int clienteId FK
+    }
+    envios {
+        int id PK
+        string codigo UK
+        date fechaSalida
+        date fechaEstimadaEntrega
+        string estado
+        decimal costoTotal
+        int clienteId FK
+    }
+    paquetes {
+        int id PK
+        string tracking UK
+        string tiendaOrigen
+        string descripcion
+        decimal pesoKg
+        decimal valorDeclaradoUsd
+        date fechaRecepcion
+        string estado
+        int casilleroId FK
+        int envioId FK
+    }
+    facturas {
+        int id PK
+        string numero UK
+        date fecha
+        decimal subtotal
+        decimal impuestos
+        decimal total
+        string metodoPago
+        string estadoPago
+        int envioId FK,UK
+    }
+    paises {
+        int id PK
+        string codigo UK
+        string nombre
+        string estado
+    }
+    sucursales {
+        int id PK
+        string codigo UK
+        string nombre
+        string direccion
+        string telefono
+        string estado
+        int paisId FK
+    }
+    bodegas {
+        int id PK
+        string codigo UK
+        string nombre
+        string direccion
+        string estado
+        int sucursalId FK
+    }
+    ubicaciones {
+        int id PK
+        string codigo UK
+        string pasillo
+        string estante
+        string estado
+        int bodegaId FK
+    }
+    transportistas {
+        int id PK
+        string codigo UK
+        string nombre
+        string telefono
+        string correo UK
+        string estado
+        int paisId FK
+    }
+    servicios {
+        int id PK
+        string codigo UK
+        string nombre
+        string descripcion
+        string estado
+    }
+    tarifas {
+        int id PK
+        string codigo UK
+        decimal precioPorKg
+        decimal cargoBase
+        date fechaVigencia
+        string estado
+        int servicioId FK
+        int paisId FK
+        int transportistaId FK
+    }
+    movimientos {
+        int id PK
+        string codigo UK
+        date fecha
+        string tipo
+        string observaciones
+        string estado
+        int paqueteId FK
+        int ubicacionId FK
+    }
+    entregas {
+        int id PK
+        string codigo UK
+        date fechaProgramada
+        string destinatario
+        string direccion
+        string estado
+        int envioId FK
+        int sucursalId FK
+        int transportistaId FK
+    }
+    incidencias {
+        int id PK
+        string codigo UK
+        date fecha
+        string descripcion
+        string prioridad
+        string estado
+        int paqueteId FK
+    }
+
+    usuarios {
+        int id PK
+        string nombre
+        string correo UK
+        string password
+        datetime fechaCreacion
+        int tokenVersion
+    }
+

@@ -1,0 +1,82 @@
+[
+  {
+    "codigo": "DEMO-CR-SJC",
+    "nombre": "San José Centro (demo)",
+    "direccion": "Centro de San José, sector avenida central · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1000",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-ESC",
+    "nombre": "Escazú (demo)",
+    "direccion": "Centro de Escazú, sector parque central · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1001",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-HER",
+    "nombre": "Heredia (demo)",
+    "direccion": "Heredia centro, sector parque Nicolás Ulloa · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1002",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-ALA",
+    "nombre": "Alajuela (demo)",
+    "direccion": "Alajuela centro, sector parque Juan Santamaría · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1003",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-CAR",
+    "nombre": "Cartago (demo)",
+    "direccion": "Cartago centro, sector avenida central · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1004",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-LIB",
+    "nombre": "Liberia (demo)",
+    "direccion": "Liberia centro, sector parque Mario Cañas Ruiz · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1005",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-PUN",
+    "nombre": "Puntarenas (demo)",
+    "direccion": "Puntarenas centro, sector paseo de los Turistas · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1006",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-LIM",
+    "nombre": "Limón (demo)",
+    "direccion": "Limón centro, sector parque Vargas · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1007",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-CR-PZE",
+    "nombre": "Pérez Zeledón (demo)",
+    "direccion": "San Isidro de El General, sector parque central · referencia de demostración, no oficina real",
+    "telefono": "+506 0000 1008",
+    "paisCodigo": "CR",
+    "horario": "Lunes a viernes 08:00–17:00; sábado 09:00–12:00 (America/Costa_Rica)"
+  },
+  {
+    "codigo": "DEMO-US-MIA",
+    "nombre": "Miami · Recepción (demo)",
+    "direccion": "Zona logística de Doral, Miami, Florida · referencia de demostración, no oficina real",
+    "telefono": "+1 305 555 0100",
+    "paisCodigo": "US",
+    "horario": "Lunes a viernes 09:00–17:00 (America/New_York)"
+  }
+]

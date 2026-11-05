@@ -1,0 +1,126 @@
+{
+  "clientes": {
+    "nombre": "Ana",
+    "apellidos": "Solano Mora",
+    "correo": "ana@example.com",
+    "telefono": "+50688887777",
+    "identificacion": "112340567",
+    "direccion": "San José, Costa Rica",
+    "fechaRegistro": "2026-11-04",
+    "estado": "activo"
+  },
+  "casilleros": {
+    "numero": "AERO-1001",
+    "direccionMiami": "8500 NW 30th Terrace, Miami, FL",
+    "fechaApertura": "2026-11-04",
+    "estado": "activo",
+    "clienteId": 1
+  },
+  "envios": {
+    "codigo": "ENV-1001",
+    "fechaSalida": "2026-11-04",
+    "fechaEstimadaEntrega": "2026-11-10",
+    "estado": "pendiente",
+    "costoTotal": 35,
+    "clienteId": 1
+  },
+  "paquetes": {
+    "tracking": "SHOP-1001",
+    "tiendaOrigen": "Amazon",
+    "descripcion": "Audífonos",
+    "pesoKg": 0.5,
+    "valorDeclaradoUsd": 60,
+    "fechaRecepcion": "2026-11-04",
+    "estado": "en_bodega",
+    "casilleroId": 1,
+    "envioId": 1
+  },
+  "facturas": {
+    "numero": "FAC-1001",
+    "fecha": "2026-11-04",
+    "subtotal": 35,
+    "impuestos": 4.55,
+    "total": 39.55,
+    "metodoPago": "transferencia",
+    "estadoPago": "pendiente",
+    "envioId": 1
+  },
+  "paises": {
+    "codigo": "CR",
+    "nombre": "Costa Rica",
+    "estado": "activo"
+  },
+  "sucursales": {
+    "codigo": "SUC-SJO",
+    "nombre": "Sucursal San José",
+    "direccion": "San José centro",
+    "telefono": "+50622223333",
+    "estado": "activo",
+    "paisId": 1
+  },
+  "bodegas": {
+    "codigo": "BOD-SJO",
+    "nombre": "Bodega de distribución",
+    "direccion": "La Uruca, San José",
+    "estado": "activo",
+    "sucursalId": 1
+  },
+  "ubicaciones": {
+    "codigo": "UB-A01",
+    "pasillo": "A",
+    "estante": "01",
+    "estado": "disponible",
+    "bodegaId": 1
+  },
+  "transportistas": {
+    "codigo": "TRA-001",
+    "nombre": "Distribución Central",
+    "telefono": "+50622224444",
+    "correo": "operaciones@example.com",
+    "estado": "activo",
+    "paisId": 1
+  },
+  "servicios": {
+    "codigo": "SER-EXP",
+    "nombre": "Entrega express",
+    "descripcion": "Distribución de paquetes en Costa Rica",
+    "estado": "activo"
+  },
+  "tarifas": {
+    "codigo": "TAR-EXP-CR",
+    "precioPorKg": 7,
+    "cargoBase": 5,
+    "fechaVigencia": "2026-11-05",
+    "estado": "activo",
+    "servicioId": 1,
+    "paisId": 1,
+    "transportistaId": 1
+  },
+  "movimientos": {
+    "codigo": "MOV-001",
+    "fecha": "2026-11-05",
+    "tipo": "entrada",
+    "observaciones": "Recepción y ubicación del paquete",
+    "estado": "registrado",
+    "paqueteId": 1,
+    "ubicacionId": 1
+  },
+  "entregas": {
+    "codigo": "ENT-001",
+    "fechaProgramada": "2026-11-10",
+    "destinatario": "Ana Solano Mora",
+    "direccion": "San José, Costa Rica",
+    "estado": "pendiente",
+    "envioId": 1,
+    "sucursalId": 1,
+    "transportistaId": 1
+  },
+  "incidencias": {
+    "codigo": "INC-001",
+    "fecha": "2026-11-05",
+    "descripcion": "Verificar embalaje exterior antes de despachar",
+    "prioridad": "baja",
+    "estado": "abierta",
+    "paqueteId": 1
+  }
+}

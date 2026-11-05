@@ -1,0 +1,4 @@
+﻿const router=require('express').Router();const c=require('../controllers/agenteController');const {rateLimit}=require('express-rate-limit');
+const limit=rateLimit({windowMs:60000,limit:12,legacyHeaders:false,standardHeaders:'draft-7',keyGenerator:req=>'usuario-'+req.usuario.id,handler:(req,res)=>res.status(429).json({ok:false,message:'Espera un momento antes de volver a consultar al asistente.',errors:[]})});
+router.post('/chat',limit,c.chat);router.get('/notificaciones',c.notifications);router.patch('/notificaciones/:id/leida',c.read);router.get('/asistente/resumen',c.summary);router.get('/asistente/clima/:codigo',c.weather);router.get('/asistente/calendario',c.calendar);router.get('/asistente/mapa',c.map);router.get('/asistente/estimacion/:codigo',c.estimate);router.get('/asistente/qr/:codigo',c.qr);router.get('/asistente/exportar/paquetes',c.csv);router.get('/asistente/pdf/:codigo',c.pdf);
+module.exports=router;

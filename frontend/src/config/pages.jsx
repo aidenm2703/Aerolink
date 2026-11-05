@@ -1,0 +1,17 @@
+import Clientes from '../pages/Clientes';
+import Casilleros from '../pages/Casilleros';
+import Envios from '../pages/Envios';
+import Paquetes from '../pages/Paquetes';
+import Facturas from '../pages/Facturas';
+import Paises from '../pages/Paises';
+import Sucursales from '../pages/Sucursales';
+import Bodegas from '../pages/Bodegas';
+import Ubicaciones from '../pages/Ubicaciones';
+import Transportistas from '../pages/Transportistas';
+import Servicios from '../pages/Servicios';
+import Tarifas from '../pages/Tarifas';
+import Movimientos from '../pages/Movimientos';
+import Entregas from '../pages/Entregas';
+import Incidencias from '../pages/Incidencias';
+import Usuarios from '../pages/Usuarios';
+export const pages = {clientes:Clientes,casilleros:Casilleros,envios:Envios,paquetes:Paquetes,facturas:Facturas,paises:Paises,sucursales:Sucursales,bodegas:Bodegas,ubicaciones:Ubicaciones,transportistas:Transportistas,servicios:Servicios,tarifas:Tarifas,movimientos:Movimientos,entregas:Entregas,incidencias:Incidencias,usuarios:Usuarios};

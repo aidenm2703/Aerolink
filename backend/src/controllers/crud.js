@@ -11,7 +11,7 @@ async function business(name, data, recordId, transaction) {
     }
   }
   if (name === 'envios' && data.fechaEstimadaEntrega < data.fechaSalida) throw fail(400, 'La entrega estimada debe ser posterior o igual a la salida.');
-  if (name === 'facturas' && Math.round((data.subtotal + data.impuestos) * 100) !== Math.round(data.total * 100)) throw fail(400, 'El total debe ser subtotal más impuestos.');
+  if (name === 'facturas' && Math.round((Number(data.subtotal) + Number(data.impuestos)) * 100) !== Math.round(data.total * 100)) throw fail(400, 'El total debe ser subtotal más impuestos.');
   if (name === 'paquetes' && data.envioId != null) {
     const casillero = await models.casilleros.findByPk(data.casilleroId, { transaction });
     const envio = await models.envios.findByPk(data.envioId, { transaction });
@@ -35,25 +35,30 @@ async function business(name, data, recordId, transaction) {
 }
 module.exports = name => {
   const model = models[name];
+  const include = Object.values(model.associations).filter(a => a.associationType === 'BelongsTo').map(a => ({ association: a, required: false }));
   return {
     list: async (req, res) => {
       const page = req.query.page ?? '1', limit = req.query.limit ?? '20';
       if (!/^[1-9]\d*$/.test(page) || !/^[1-9]\d*$/.test(limit) || Number(limit) > 100 || !Number.isSafeInteger(Number(page)) || Number(page) > 1000000) throw fail(400, 'Paginación inválida: page >= 1 y limit entre 1 y 100.');
       const where = {};
-      if (req.query.estado !== undefined) { if (typeof req.query.estado !== 'string') throw fail(400, 'Estado inválido.'); where[name === 'facturas' ? 'estadoPago' : 'estado'] = req.query.estado; }
+      if (req.query.estado !== undefined) {
+        const key = name === 'facturas' ? 'estadoPago' : 'estado';
+        if (typeof req.query.estado !== 'string' || !model.rawAttributes[key].validate.isIn[0].includes(req.query.estado)) throw fail(400, 'Estado inválido.');
+        where[key] = req.query.estado;
+      }
       if (req.query.q !== undefined) {
         if (typeof req.query.q !== 'string' || req.query.q.length > 100) throw fail(400, 'Búsqueda inválida.');
         where[Op.or] = Object.entries(model.rawAttributes).filter(([k, a]) => a.type.key === 'STRING').map(([key]) => ({ [key]: { [Op.like]: '%' + req.query.q + '%' } }));
       }
-      const result = await model.findAndCountAll({ where, limit: Number(limit), offset: (Number(page) - 1) * Number(limit), order: [['id', 'ASC']] });
+      const result = await model.findAndCountAll({ where, include, limit: Number(limit), offset: (Number(page) - 1) * Number(limit), order: [['id', 'ASC']] });
       return ok(res, result.rows, 200, { page: Number(page), limit: Number(limit), total: result.count });
     },
-    get: async (req, res) => { const row = await model.findByPk(id(req.params.id)); if (!row) throw fail(404, 'Registro no encontrado.'); return ok(res, row); },
+    get: async (req, res) => { const row = await model.findByPk(id(req.params.id), { include }); if (!row) throw fail(404, 'Registro no encontrado.'); return ok(res, row); },
     save: async (req, res) => {
       validate(model, req.body);
       const updating = req.method === 'PUT';
       const result = await sequelize.transaction(async transaction => {
-        const row = updating ? await model.findByPk(id(req.params.id), { transaction }) : null;
+        const row = updating ? await model.findByPk(id(req.params.id), { transaction, lock: transaction.LOCK.UPDATE }) : null;
         if (updating && !row) throw fail(404, 'Registro no encontrado.');
         const data = { ...(row ? row.toJSON() : {}), ...req.body };
         for (const [key, attr] of Object.entries(model.rawAttributes)) if (key !== 'id' && attr.allowNull === false && data[key] == null) throw fail(400, 'Campo obligatorio: ' + key);
@@ -65,3 +70,6 @@ module.exports = name => {
     remove: async (req, res) => { const row = await model.findByPk(id(req.params.id)); if (!row) throw fail(404, 'Registro no encontrado.'); await row.destroy(); return ok(res, { id: row.id, message: 'Registro eliminado.' }); }
   };
 };
+
+
+

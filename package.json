@@ -1,0 +1,39 @@
+{
+  "name": "aerolink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm --prefix backend start",
+    "dev": "npm --prefix backend run dev",
+    "seed": "npm --prefix backend run seed",
+    "test": "npm --prefix backend test",
+    "db:check": "npm --prefix backend run db:check",
+    "db:sync": "npm --prefix backend run db:sync",
+    "test:mysql": "npm --prefix backend run test:mysql",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test:frontend": "npm --prefix frontend test",
+    "build:frontend": "npm --prefix frontend run build",
+    "test:collection": "node backend/scripts/test-collection.js",
+    "migrate:v2": "node backend/scripts/v2/migrate.js",
+    "seed:sucursales:v2": "node backend/scripts/v2/seed-sucursales.js",
+    "test:v2": "node --test backend/test/v2/*.test.js",
+    "vincular:cliente": "node backend/scripts/v2/vincular-cliente.js",
+    "seed:tracking:v2": "node backend/scripts/v2/seed-tracking.js",
+    "check:gemini": "node backend/scripts/v2/check-gemini.js",
+    "tracking:evento": "node backend/scripts/v2/registrar-evento.js",
+    "seed:agente:v2": "node backend/scripts/v2/seed-agente.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6",
+    "nodemon": "^3.1.14",
+    "sequelize": "^6.37.8",
+    "sequelize-cli": "^6.6.5"
+  }
+}

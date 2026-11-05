@@ -1,0 +1,4 @@
+﻿const {DataTypes:D}=require('sequelize');
+module.exports={id:'003-notificaciones',async up(sequelize){await sequelize.getQueryInterface().createTable('notificaciones',{
+ id:{type:D.INTEGER,primaryKey:true,autoIncrement:true},usuarioId:{type:D.INTEGER,allowNull:true},clienteId:{type:D.INTEGER,allowNull:false},paqueteId:{type:D.INTEGER,allowNull:true},tipo:{type:D.STRING,allowNull:false},mensaje:{type:D.TEXT,allowNull:false},leida:{type:D.BOOLEAN,allowNull:false,defaultValue:false},fecha:{type:D.DATE,allowNull:false},fuenteKey:{type:D.STRING,allowNull:false,unique:true},payload:{type:D.JSON,allowNull:true},estadoGeneracion:{type:D.STRING,allowNull:false,defaultValue:'pendiente'},origenTexto:{type:D.STRING,allowNull:false,defaultValue:'plantilla'},ultimoIntento:{type:D.DATE,allowNull:true}
+});}};

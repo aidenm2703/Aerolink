@@ -1,3 +1,5 @@
+process.env.DB_DIALECT = 'sqlite';
+delete process.env.DATABASE_URL;
 process.env.DB_STORAGE = ':memory:';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -8,8 +10,9 @@ test('CRUD, validaciones, referencias y respuestas JSON', async () => {
   const server = app.listen(0, '127.0.0.1');
   await new Promise(resolve => server.once('listening', resolve));
   const base = 'http://127.0.0.1:' + server.address().port + '/api';
+  let token;
   async function request(method, route, body, status) {
-    const r = await fetch(base + route, { method, headers: { 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
+    const r = await fetch(base + route, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) }, body: body === undefined ? undefined : JSON.stringify(body) });
     const json = await r.json();
     assert.equal(r.status, status, method + ' ' + route + ': ' + JSON.stringify(json));
     assert.equal(json.ok, status < 400);
@@ -17,13 +20,9 @@ test('CRUD, validaciones, referencias y respuestas JSON', async () => {
     return json.data;
   }
   try {
-    const samples = {
-      clientes: { nombre: 'Ana', apellidos: 'Solano', correo: 'ana@example.com', telefono: '88887777', identificacion: '123', direccion: 'San José', fechaRegistro: '2026-11-04', estado: 'activo' },
-      casilleros: { numero: 'A1', direccionMiami: 'Miami', fechaApertura: '2026-11-04', estado: 'activo', clienteId: 1 },
-      envios: { codigo: 'E1', fechaSalida: '2026-11-04', fechaEstimadaEntrega: '2026-11-10', estado: 'pendiente', costoTotal: 35, clienteId: 1 },
-      paquetes: { tracking: 'T1', tiendaOrigen: 'Amazon', descripcion: 'Audífonos', pesoKg: 1, valorDeclaradoUsd: 50, fechaRecepcion: '2026-11-04', estado: 'recibido', casilleroId: 1, envioId: 1 },
-      facturas: { numero: 'F1', fecha: '2026-11-04', subtotal: 35, impuestos: 4.55, total: 39.55, metodoPago: 'tarjeta', estadoPago: 'pendiente', envioId: 1 }
-    };
+    await request('POST', '/auth/register', { nombre: 'Pruebas', correo: 'test@example.com', password: 'Prueba-segura-2026' }, 201);
+    token = (await request('POST', '/auth/login', { correo: 'test@example.com', password: 'Prueba-segura-2026' }, 200)).token;
+    const samples = require('./samples');
     for (const [name, sample] of Object.entries(samples)) {
       await request('POST', '/' + name, {}, 400);
       const created = await request('POST', '/' + name, sample, 201);
@@ -63,3 +62,5 @@ test('CRUD, validaciones, referencias y respuestas JSON', async () => {
     await request('DELETE', '/clientes/' + second.id, undefined, 200);
   } finally { await new Promise(resolve => server.close(resolve)); await sequelize.close(); }
 });
+
+
